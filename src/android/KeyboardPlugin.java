@@ -30,7 +30,7 @@ public class KeyboardPlugin extends CordovaPlugin {
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
                         if (event.getAction() == KeyEvent.ACTION_UP) {
-                            this.keyup_callback.success("KeyCode: "+(String.valueOf(keyCode)));
+                            final this.keyup_callback.success("KeyCode: "+(String.valueOf(keyCode)));
                         }
                         return true;
                     };
