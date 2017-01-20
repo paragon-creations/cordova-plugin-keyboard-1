@@ -16,7 +16,7 @@ import android.view.View.OnKeyListener;
 import android.view.KeyEvent;
 import android.view.*;
 
-public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
+public class KeyboardPlugin extends CordovaPlugin{ // implements OnKeyListener{
     private CallbackContext keyup_callback = null;
     private CallbackContext keydown_callback = null;
     private CallbackContext allkeys_callback = null;
@@ -29,10 +29,15 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
         
         this.currentView = webView.getView();
         this.currentView.setOnKeyListener(
-                new View.OnKeyListener(){
+                new View.OnKeyListener() {
                     @Override
-                    public boolean onKey(View view, int keyCode, KeyEvent event){
-                        return doKey(view, keyCode, event);
+                    public boolean onKey(View view, int keyCode, KeyEvent event) {
+                        if (event.getAction() == KeyEvent.ACTION_UP) {
+                            PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+keyCode);
+                            this.keydown_callback.sendPluginResult(result);
+                        }
+                        return false;
+                        //return doKey(view, keyCode, event);
                     }
                 }
             );
@@ -121,13 +126,7 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
     }
     
     public boolean doKeyUp(int keyCode, KeyEvent event) {
-    	
-        // Debugging
-        PluginResult result = new PluginResult(PluginResult.Status.ERROR, String.valueOf(keyCode));
-        this.keyup_callback.sendPluginResult(result);
-       
-        /*
-        if (this.keyup_callback == null) {
+    	if (this.keyup_callback == null) {
     		String str = "DEBUG = keyup_callback is null";
             PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
             this.keyup_callback.sendPluginResult(result);
@@ -148,7 +147,6 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
             this.keyup_callback.sendPluginResult(result);
             return false;
     	}
-        */
         return true;
     }
 }
