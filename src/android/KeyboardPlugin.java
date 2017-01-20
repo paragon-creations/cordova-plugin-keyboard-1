@@ -102,6 +102,10 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
     /*
     @Override*/
     public boolean doKey(View v, int keyCode, KeyEvent event) {
+        String str = "DEBUG = Entered doKey()";
+        PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
+        this.keyup_callback.sendPluginResult(result);
+        
         if (event.getAction() == KeyEvent.ACTION_UP) {
             return this.doKeyUp(keyCode, event);
         }
@@ -154,7 +158,8 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
     
     public boolean doKeyUp(int keyCode, KeyEvent event){
     	if (this.keyup_callback == null) {
-    		PluginResult result = new PluginResult(PluginResult.Status.ERROR, 'DEBUG = keyup_callback is null');
+    		String str = "DEBUG = keyup_callback is null";
+            PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
             this.keyup_callback.sendPluginResult(result);
             return false;
     	}
@@ -162,11 +167,13 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
             String str = "";
             if (event != null) {
                 str = String.valueOf((char)event.getUnicodeChar());
-                PluginResult result = new PluginResult(PluginResult.Status.ERROR, 'DEBUG = event NOT null');
+                str = "DEBUG = event NOT null";
+                PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
                 this.keyup_callback.sendPluginResult(result);
             } else {
                 str = String.valueOf(Character.toChars(keyCode)[0]);
-                PluginResult result = new PluginResult(PluginResult.Status.ERROR, 'DEBUG = event IS null');
+                str = "DEBUG = event IS null";
+                PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
                 this.keyup_callback.sendPluginResult(result);
             }
             PluginResult result = new PluginResult(PluginResult.Status.OK, str);
