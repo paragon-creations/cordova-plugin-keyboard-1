@@ -27,14 +27,12 @@ public class KeyboardPlugin extends CordovaPlugin {
         super.initialize(cordova, webView);
         this.currentView = webView.getView();
         this.currentView.setOnKeyListener(
-            new View.OnKeyListener() {
-                @Override
-                public boolean onKeyUp(int keyCode, KeyEvent event) {
-                    PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+(String.valueOf(keyCode)));
-                    this.keyup_callback.sendPluginResult(result);
-                    return super.onKeyUp(keyCode, event);
-                };
-            }
+            @Override
+            public boolean onKeyUp(int keyCode, KeyEvent event) {
+                PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+(String.valueOf(keyCode)));
+                this.keyup_callback.sendPluginResult(result);
+                return super.onKeyUp(keyCode, event);
+            };
         );
     }
     
