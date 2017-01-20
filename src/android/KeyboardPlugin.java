@@ -35,13 +35,14 @@ public class KeyboardPlugin extends CordovaPlugin {
             view.setOnKeyListener(
                 new OnKeyListener() {
                     @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (event.getAction() == KeyEvent.ACTION_UP) {
+                    //public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    public boolean onKey(int keyCode, KeyEvent event) {
+                        //if (event.getAction() == KeyEvent.ACTION_UP) {
                             //callbackContext.success("KeyCode: "+(String.valueOf(keyCode)));
                             PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
                             result.setKeepCallback(true);
                             callback.sendPluginResult(result);
-                        }
+                        //}
                         return true;
                     };
                 }
