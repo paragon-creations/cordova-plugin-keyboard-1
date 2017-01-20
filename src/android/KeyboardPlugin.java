@@ -11,8 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class KeyboardPlugin extends CordovaPlugin {
-    private CallbackContext keyup_callback = null;
-
+    private static CallbackContext callback = null;
+    
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     	Activity activity = this.cordova.getActivity();
@@ -23,15 +23,17 @@ public class KeyboardPlugin extends CordovaPlugin {
     	    view = (View)webView;
     	}
         
-        this.keyup_callback = callbackContext;
-        
         if ("register".equals(action)) {
+            callback = callbackContext;
             view.setOnKeyListener(
                 new OnKeyListener() {
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
                         if (event.getAction() == KeyEvent.ACTION_UP) {
-                            this.keyup_callback.success("KeyCode: "+(String.valueOf(keyCode)));
+                            //callbackContext.success("KeyCode: "+(String.valueOf(keyCode)));
+                            PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+(String.valueOf(keyCode)));
+                            result.setKeepCallback(true);
+                            callback.sendPluginResult(result);
                         }
                         return true;
                     };
