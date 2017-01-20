@@ -20,21 +20,14 @@ public class KeyboardPlugin extends CordovaPlugin {
     private static CallbackContext callback = null;
     
     @Override
-    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-        return new BaseInputConnection(this, false); //this is needed for #dispatchKeyEvent() to be notified.
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        String data = "";
-        if (event != null) {
-            data = String.valueOf((char)event.getUnicodeChar());
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (callback != null) {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
+            result.setKeepCallback(true);
+            callback.sendPluginResult(result);
+            return super.onKeyUp(keyCode, event);
         }
-        PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+data);
-        result.setKeepCallback(true);
-        callback.sendPluginResult(result);
-        return super.dispatchKeyEvent(event);
-    };
+    }
     
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -66,11 +59,16 @@ public class KeyboardPlugin extends CordovaPlugin {
                 return super.dispatchKeyEvent(event);
             };
             */
+            
             /*
             public boolean onKeyUp(int keyCode, KeyEvent event) {
+                PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
+                result.setKeepCallback(true);
+                callback.sendPluginResult(result);
                 return super.onKeyUp(keyCode, event);
             }
             */
+            
             /*
             view.setOnKeyListener(
                 new OnKeyListener() {
