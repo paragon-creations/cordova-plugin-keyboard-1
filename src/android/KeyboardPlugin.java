@@ -45,36 +45,26 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
         
         if (action.equalsIgnoreCase("keyUp")) {
             this.keyup_callback = callbackContext;
-        }
-        else if(action.equalsIgnoreCase("stopKeyUp")){
+        } else if(action.equalsIgnoreCase("stopKeyUp")) {
         	this.keyup_callback = null;
         }
-        else if(action.equalsIgnoreCase("testKeyUp")){
-            if(this.doKeyUp(85,null)){
+        else if (action.equalsIgnoreCase("testKeyUp")) {
+            if (this.doKeyUp(85,null)) {
                 result = new PluginResult(PluginResult.Status.OK, "key up test success");
-            }
-            else{
+            } else{
                 result = new PluginResult(PluginResult.Status.ERROR, "key up test failed");
             }
-        }
-        else if(action.equalsIgnoreCase("keyDown")){
+        } else if (action.equalsIgnoreCase("keyDown")){
             this.keydown_callback = callbackContext;
-        }
-        else if(action.equalsIgnoreCase("stopKeyDown")){
+        } else if (action.equalsIgnoreCase("stopKeyDown")){
         	this.keydown_callback = null;
-        }
-        else if(action.equalsIgnoreCase("testKeyDown")){
-            if(this.doKeyDown(68,null)){
+        } else if (action.equalsIgnoreCase("testKeyDown")){
+            if (this.doKeyDown(68,null)) {
                 result = new PluginResult(PluginResult.Status.OK, "key down test success");
-            }
-            else{
+            } else {
                 result = new PluginResult(PluginResult.Status.ERROR, "key down test failed");
             }
-        }
-    /*    else if(action.equalsIgnoreCase("catchAllKeyEvents")){
-            this.allkeys_callback = callbackContext;
-        }*/
-        else if(action.equalsIgnoreCase("getStatus")){
+        } else if (action.equalsIgnoreCase("getStatus")) {
             String msg = "status:";
             if(this.keyup_callback != null){
                 msg += "keyup active - ";
@@ -99,49 +89,30 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
 
         return true;
     }
-    /*
-    @Override*/
     public boolean doKey(View v, int keyCode, KeyEvent event) {
-        String str = "DEBUG = Entered doKey()";
-        PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
-        this.keyup_callback.sendPluginResult(result);
-        
         if (event.getAction() == KeyEvent.ACTION_UP) {
+            
+            // Debugging
+            String str = String.valueOf(KeyEvent.ACTION_UP);
+            PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
+            this.keyup_callback.sendPluginResult(result);
+            
             return this.doKeyUp(keyCode, event);
         }
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             return this.doKeyDown(keyCode, event);
         }
-        return false;//this.onCatchAllKeyEvents(keyCode, event);
+        return false; //this.onCatchAllKeyEvents(keyCode, event);
     }
-    /*
-    public boolean onCatchAllKeyEvents(int keyCode, KeyEvent event){
-        if(this.allkeys_callback != null){
-            return false;
-        }
-        try{
-            String str = String.valueOf((char)event.getUnicodeChar());
-            PluginResult result = new PluginResult(PluginResult.Status.OK, str);
-            result.setKeepCallback(true);
-            this.allkeys_callback.sendPluginResult(result);
-        }
-        catch(Exception e){
-            PluginResult result = new PluginResult(PluginResult.Status.ERROR, "error in all key event handling");
-            this.allkeys_callback.sendPluginResult(result);
-        }
-        return true;
-    }
-    */
     public boolean doKeyDown(int keyCode, KeyEvent event){
-    	if(this.keydown_callback == null){
+    	if (this.keydown_callback == null) {
     		return false;
     	}
     	try{
             String str = "";
-            if(event != null){
+            if (event != null){
                 str = String.valueOf((char)event.getUnicodeChar());
-            }
-            else{
+            } else {
                 str = String.valueOf(Character.toChars(keyCode)[0]);
             }
             PluginResult result = new PluginResult(PluginResult.Status.OK, str);
@@ -156,7 +127,7 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
         return true;
     }
     
-    public boolean doKeyUp(int keyCode, KeyEvent event){
+    public boolean doKeyUp(int keyCode, KeyEvent event) {
     	if (this.keyup_callback == null) {
     		String str = "DEBUG = keyup_callback is null";
             PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
@@ -179,7 +150,7 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
             PluginResult result = new PluginResult(PluginResult.Status.OK, str);
             result.setKeepCallback(true);
             this.keyup_callback.sendPluginResult(result);
-    	} catch(Exception e) {
+    	} catch (Exception e) {
     	    PluginResult result = new PluginResult(PluginResult.Status.ERROR, "error in keyup handling");
             this.keyup_callback.sendPluginResult(result);
             return false;
