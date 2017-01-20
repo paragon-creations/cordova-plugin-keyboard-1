@@ -25,8 +25,6 @@ public class KeyboardPlugin extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        // init code for view event listening
-        
         this.currentView = webView.getView();
         this.currentView.setOnKeyListener(
             new View.OnKeyListener() {
@@ -45,43 +43,7 @@ public class KeyboardPlugin extends CordovaPlugin {
         
         if (action.equalsIgnoreCase("keyUp")) {
             this.keyup_callback = callbackContext;
-        } else if(action.equalsIgnoreCase("stopKeyUp")) {
-        	this.keyup_callback = null;
-        }
-        else if (action.equalsIgnoreCase("testKeyUp")) {
-            if (this.doKeyUp(85,null)) {
-                result = new PluginResult(PluginResult.Status.OK, "key up test success");
-            } else{
-                result = new PluginResult(PluginResult.Status.ERROR, "key up test failed");
-            }
-        } else if (action.equalsIgnoreCase("keyDown")){
-            this.keydown_callback = callbackContext;
-        } else if (action.equalsIgnoreCase("stopKeyDown")){
-        	this.keydown_callback = null;
-        } else if (action.equalsIgnoreCase("testKeyDown")){
-            if (this.doKeyDown(68,null)) {
-                result = new PluginResult(PluginResult.Status.OK, "key down test success");
-            } else {
-                result = new PluginResult(PluginResult.Status.ERROR, "key down test failed");
-            }
-        } else if (action.equalsIgnoreCase("getStatus")) {
-            String msg = "status:";
-            if(this.keyup_callback != null) {
-                msg += "keyup active - ";
-            }
-            else{
-                msg += "keyup inactive - ";
-            }
-            if(this.keydown_callback != null) {
-                msg += "keydown active";
-            }
-            else{
-                msg += "keydown inactive";
-            }
-            result = new PluginResult(PluginResult.Status.OK,msg);
-        }
-        else {
-            // invalid action
+        } else {
             return false;
         }
         
