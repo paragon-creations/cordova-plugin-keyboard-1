@@ -29,9 +29,11 @@ public class KeyboardPlugin extends CordovaPlugin {
         this.currentView.setOnKeyListener(
             new View.OnKeyListener() {
                 @Override
-                public boolean onKey(View view, int keyCode, KeyEvent event) {
-                    return doKey(view, keyCode, event);
-                }
+                public boolean onKeyUp(int keyCode, KeyEvent event) {
+                    PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+(String.valueOf(keyCode)));
+                    this.keyup_callback.sendPluginResult(result);
+                    return super.onKeyUp(keyCode, event);
+                };
             }
         );
     }
@@ -49,13 +51,6 @@ public class KeyboardPlugin extends CordovaPlugin {
         
         callbackContext.sendPluginResult(result);
 
-        return true;
-    }
-    public boolean doKey(View v, int keyCode, KeyEvent event) {
-        //if (event.getAction() == KeyEvent.ACTION_UP) {
-            PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+keyCode);
-            this.keyup_callback.sendPluginResult(result);
-        //}
         return true;
     }
 }
