@@ -15,14 +15,14 @@ public class KeyboardPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     	Activity activity = this.cordova.getActivity();
-    	InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-
     	View view;
     	try {
     	    view = (View)webView.getClass().getMethod("getView").invoke(webView);
     	} catch (Exception e) {
     	    view = (View)webView;
     	}
+        
+        this.keyup_callback = callbackContext;
 
     	if ("register".equals(action)) {
             view.setOnKeyListener(
@@ -30,7 +30,7 @@ public class KeyboardPlugin extends CordovaPlugin {
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
                         if (event.getAction() == KeyEvent.ACTION_UP) {
-                            final this.callbackContext.success("KeyCode: "+(String.valueOf(keyCode)));
+                            this.keyup_callback.success("KeyCode: "+(String.valueOf(keyCode)));
                         }
                         return true;
                     };
@@ -38,7 +38,7 @@ public class KeyboardPlugin extends CordovaPlugin {
             );
     	    return true;
     	} else {
-            callbackContext.error(action + " is not a supported action");
+            this.keyup_callback.error(action + " is not a supported action");
             return false;
         }
     }
