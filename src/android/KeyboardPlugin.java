@@ -91,12 +91,6 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
     }
     public boolean doKey(View v, int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_UP) {
-            
-            // Debugging
-            String str = String.valueOf(KeyEvent.ACTION_UP);
-            PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
-            this.keyup_callback.sendPluginResult(result);
-            
             return this.doKeyUp(keyCode, event);
         }
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -107,8 +101,7 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
     public boolean doKeyDown(int keyCode, KeyEvent event){
     	if (this.keydown_callback == null) {
     		return false;
-    	}
-    	try{
+    	} try {
             String str = "";
             if (event != null){
                 str = String.valueOf((char)event.getUnicodeChar());
