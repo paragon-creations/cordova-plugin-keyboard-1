@@ -1,54 +1,41 @@
-package com.otb.cordova.keyboard;
-
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.PluginResult;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+package org.apache.cordova.labs.keyboard;
 
 import android.app.Activity;
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 import android.view.View;
-import android.view.View.OnKeyListener;
-import android.view.KeyEvent;
-import android.view.*;
+import org.apache.cordova.*;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class KeyboardPlugin extends CordovaPlugin {
-    private CallbackContext keyup_callback = null;
-    private CallbackContext keydown_callback = null;
-    private CallbackContext allkeys_callback = null;
-    private View currentView = null;
-    
+
     @Override
-    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        super.initialize(cordova, webView);
-        this.currentView = webView.getView();
-        this.currentView.setOnKeyListener(
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+	Activity activity = this.cordova.getActivity();
+	InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+	View view;
+	try {
+	    view = (View)webView.getClass().getMethod("getView").invoke(webView);
+	}
+	catch (Exception e){
+	    view = (View)webView;
+	}
+
+	if ("register".equals(action)) {
+        view.setOnKeyListener(
             @Override
-            public boolean onKeyUp(int keyCode, KeyEvent event) {
-                PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+(String.valueOf(keyCode)));
-                this.keyup_callback.sendPluginResult(result);
-                return super.onKeyUp(keyCode, event);
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP) {
+                    callbackContext.success("KeyCode: "+(String.valueOf(keyCode)));
+                }
+                return true;
             };
         );
-    }
-    
-    @Override
-    public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
-        PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
-        result.setKeepCallback(true);
-        
-        if (action.equalsIgnoreCase("keyUp")) {
-            this.keyup_callback = callbackContext;
-        } else {
-            return false;
-        }
-        
-        callbackContext.sendPluginResult(result);
-
-        return true;
+	    return true;
+	} else {
+	   callbackContext.error(action + " is not a supported action");
+	      return false;
     }
 }
