@@ -37,13 +37,21 @@ public class KeyboardPlugin extends CordovaPlugin {
         
         if ("register".equals(action)) {
             @Override
-            public boolean onKeyUp(int keyCode, KeyEvent event) {
-                /*PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
+            public boolean dispatchKeyEvent(KeyEvent event) {
+                String data = "";
+                if (event != null) {
+                    data = String.valueOf((char)event.getUnicodeChar())
+                }
+                PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+data);
                 result.setKeepCallback(true);
                 callback.sendPluginResult(result);
-                */
+                return super.dispatchKeyEvent(event);
+            };
+            /*
+            public boolean onKeyUp(int keyCode, KeyEvent event) {
                 return super.onKeyUp(keyCode, event);
             }
+            */
             /*
             view.setOnKeyListener(
                 new OnKeyListener() {
