@@ -123,8 +123,7 @@ public class KeyboardPlugin extends CordovaPlugin{// implements OnKeyListener{
     public boolean doKeyUp(int keyCode, KeyEvent event) {
     	
         // Debugging
-        str = String.valueOf(keyCode);
-        PluginResult result = new PluginResult(PluginResult.Status.ERROR, str);
+        PluginResult result = new PluginResult(PluginResult.Status.ERROR, String.valueOf(keyCode));
         this.keyup_callback.sendPluginResult(result);
        
         /*
