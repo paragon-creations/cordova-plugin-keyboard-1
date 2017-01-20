@@ -20,6 +20,14 @@ public class KeyboardPlugin extends CordovaPlugin {
     private static CallbackContext callback = null;
     
     @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
+        result.setKeepCallback(true);
+        callback.sendPluginResult(result);
+        return super.onKeyUp(keyCode, event);
+    }
+    
+    @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     	Activity activity = this.cordova.getActivity();
     	View view;
@@ -36,13 +44,7 @@ public class KeyboardPlugin extends CordovaPlugin {
         view.requestFocus();
         
         if ("register".equals(action)) {
-            @Override
-            public boolean onKeyUp(int keyCode, KeyEvent event) {
-                PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
-                result.setKeepCallback(true);
-                callback.sendPluginResult(result);
-                return super.onKeyUp(keyCode, event);
-            }
+            
             /*
             view.setOnKeyListener(
                 new OnKeyListener() {
