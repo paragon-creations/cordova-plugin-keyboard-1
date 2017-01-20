@@ -39,7 +39,7 @@ public class KeyboardPlugin extends CordovaPlugin {
             );
     	    return true;
     	} else {
-            this.keyup_callback.error(action + " is not a supported action");
+            callbackContext.error(action + " is not a supported action");
             return false;
         }
     }
