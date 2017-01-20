@@ -36,20 +36,29 @@ public class KeyboardPlugin extends CordovaPlugin {
         view.requestFocus();
         
         if ("register".equals(action)) {
+            @Override
+            public boolean onKeyUp(int keyCode, KeyEvent event) {
+                PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
+                result.setKeepCallback(true);
+                callback.sendPluginResult(result);
+                return super.onKeyUp(keyCode, event);
+            }
+            /*
             view.setOnKeyListener(
                 new OnKeyListener() {
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (event.getAction() == KeyEvent.ACTION_UP) {
+                        //if (event.getAction() == KeyEvent.ACTION_UP) {
                             //callbackContext.success("KeyCode: "+(String.valueOf(keyCode)));
                             PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
                             result.setKeepCallback(true);
                             callback.sendPluginResult(result);
-                        }
+                        //}
                         return true;
                     };
                 }
             );
+            */
     	    return true;
     	} else {
             callback.error(action + " is not a supported action");
