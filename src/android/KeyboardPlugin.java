@@ -16,22 +16,13 @@ import android.view.View.OnKeyListener;
 import android.view.KeyEvent;
 import android.view.*;
 
-public class MyWebView implements CordovaWebView {
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (callback != null) {
-            //PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+String.valueOf(keyCode));
-            //result.setKeepCallback(true);
-            //callback.sendPluginResult(result);
-            return view.onKeyUp(keyCode, event);
-        }
-    }
-
-}
-
 public class KeyboardPlugin extends CordovaPlugin {
     private static CallbackContext callback = null;
+    
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return view.onKeyUp(keyCode, event);
+    }
     
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
