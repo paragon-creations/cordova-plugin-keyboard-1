@@ -29,9 +29,8 @@ public class KeyboardPlugin extends CordovaPlugin {
                     public boolean onKey(View v, int keyCode, KeyEvent event) {
                         if (event.getAction() == KeyEvent.ACTION_UP) {
                             //callbackContext.success("KeyCode: "+(String.valueOf(keyCode)));
-                            PluginResult result = new PluginResult(PluginResult.Status.OK, str);
-                            result.setKeepCallback(true);
-                            callbackContext.sendPluginResult("KeyCode: "+(String.valueOf(keyCode)));
+                            PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+(String.valueOf(keyCode)));
+                            callbackContext.sendPluginResult(result);
                         }
                         return true;
                     };
