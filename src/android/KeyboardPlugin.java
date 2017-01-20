@@ -30,7 +30,7 @@ public class KeyboardPlugin extends CordovaPlugin {
                         if (event.getAction() == KeyEvent.ACTION_UP) {
                             //callbackContext.success("KeyCode: "+(String.valueOf(keyCode)));
                             PluginResult result = new PluginResult(PluginResult.Status.OK, "KeyCode: "+(String.valueOf(keyCode)));
-                            callbackContext.sendPluginResult(result);
+                            final callbackContext.sendPluginResult(result);
                         }
                         return true;
                     };
