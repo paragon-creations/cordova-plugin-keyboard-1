@@ -24,9 +24,9 @@ public class KeyboardPlugin extends CordovaPlugin {
        super.initialize(cordova, webView);
     }
     
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return webView.getView().onKeyUp(keyCode, event);
-    }
-    
+}
+
+@Override
+public boolean onKeyUp(int keyCode, KeyEvent event) {
+    return super.onKeyUp(keyCode, event);
 }
