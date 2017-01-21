@@ -17,7 +17,7 @@ import android.view.KeyEvent;
 import android.view.*;
 
 public class KeyboardPlugin extends CordovaWebView {
-    
+    Activity activity = this.cordova.getActivity();
     View view;
     try {
         view = (View)webView.getClass().getMethod("getView").invoke(webView);
