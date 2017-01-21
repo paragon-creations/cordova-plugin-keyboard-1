@@ -16,18 +16,16 @@ import android.view.View.OnKeyListener;
 import android.view.KeyEvent;
 import android.view.*;
 
-public class KeyboardPlugin extends CordovaWebView {
-    Activity activity = this.cordova.getActivity();
-    View view;
-    try {
-        view = (View)webView.getClass().getMethod("getView").invoke(webView);
-    } catch (Exception e) {
-        view = (View)webView;
-    }
+public class KeyboardPlugin extends CordovaPlugin {
+    private static CallbackContext callback = null;
     
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return view.onKeyUp(keyCode, event);
-    }
-
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+       super.initialize(cordova, webView);
+       
+       @Override
+       public boolean onKeyUp(int keyCode, KeyEvent event) {
+           return webView.getView().onKeyUp(keyCode, event);
+       }
+   }
 }
