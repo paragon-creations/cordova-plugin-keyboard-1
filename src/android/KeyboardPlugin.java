@@ -18,9 +18,16 @@ import android.view.*;
 
 public class KeyboardPlugin extends CordovaWebView {
     
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return super.onKeyUp(keyCode, event);
+    View view;
+    try {
+        view = (View)webView.getClass().getMethod("getView").invoke(webView);
+    } catch (Exception e) {
+        view = (View)webView;
     }
     
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return view.onKeyUp(keyCode, event);
+    }
+
 }
