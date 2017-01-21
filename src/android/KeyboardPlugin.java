@@ -22,10 +22,11 @@ public class KeyboardPlugin extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
        super.initialize(cordova, webView);
-       
-       @Override
-       public boolean onKeyUp(int keyCode, KeyEvent event) {
-           return webView.getView().onKeyUp(keyCode, event);
-       }
-   }
+    }
+    
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return webView.getView().onKeyUp(keyCode, event);
+    }
+    
 }
